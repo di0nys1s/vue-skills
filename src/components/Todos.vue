@@ -22,7 +22,8 @@
 
 <script>
 import TodoItem from './TodoItem.vue';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 export default {
 	name: 'todos',
@@ -31,29 +32,43 @@ export default {
 	},
 	data() {
 		return {
-			title: '',
-			todos: [
-				{
-					id: 1,
-					title: 'Practice Vue.js',
-					completed: true
-				},
-				{
-					id: 2,
-					title: 'Establish Microsoft Sharepoint',
-					completed: false
-				}
-			]
+            title: '',
+            completed: false,
+			todos: []
 		};
 	},
 	methods: {
 		deleteTodoItem(id) {
-			this.todos = this.todos.filter(todo => todo.id !== id);
+            // this.todos = this.todos.filter(todo => todo.id !== id);
+            axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+            .then(() => this.todos = this.todos.filter(todo => todo.id !== id))
+            .catch(error => console.log('Error', error));
 		},
 		addTodo() {
-			this.todos.push({ id: uuidv4(), title: this.title, completed: false });
+			axios
+				.post('https://jsonplaceholder.typicode.com/todos', {
+                    title: this.title,
+					completed: this.completed
+				})
+				.then(
+					res =>
+						(this.todos = [...this.todos, res.data])
+				)
+				.catch(error => console.log('Error', error));
+
+			// this.todos.push({ title: this.title, completed: false });
 			this.title = '';
 		}
+	},
+	created() {
+		// const url = 'https://jsonplaceholder.typicode.com/todos';
+		// let response = await axios.get(url);
+		// let data = await response.data;
+		// this.todos = data.filter(x => x.id > 195);
+		axios
+			.get('https://jsonplaceholder.typicode.com/todos?_limit=5')
+			.then(res => (this.todos = res.data))
+			.catch(err => console.log('Error: ', err));
 	}
 };
 </script>
@@ -69,19 +84,19 @@ input[type='text'] {
 	border: 0;
 	font-size: 1.3em;
 	background-color: #323333;
-    color: #e0edf4;
-    font-size: 1rem;
+	color: #e0edf4;
+	font-size: 1rem;
 }
 input[type='submit'] {
 	flex: 2;
-    transition-duration: 0.4s;
-    font-weight: 600;
-    background-color: #323333;
-    color: #e0edf4;
+	transition-duration: 0.4s;
+	font-weight: 600;
+	background-color: #323333;
+	color: #e0edf4;
 }
 input[type='submit']:hover {
-    background-color: #3eb3f6;
-    cursor: pointer;
+	background-color: #3eb3f6;
+	cursor: pointer;
 }
 
 .todo-item {
