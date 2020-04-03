@@ -72,6 +72,10 @@ export default {
 	background: #fff;
 }
 
+form {
+	margin: 1rem 0;
+}
+
 ul {
 	margin: 0;
 	padding: 0;
@@ -79,7 +83,7 @@ ul {
 }
 
 ul li {
-	padding: 20px;
+	padding: 30px;
 	font-size: 1.3em;
 	background-color: #e0edf4;
 	border-left: 5px solid #3eb3f6;

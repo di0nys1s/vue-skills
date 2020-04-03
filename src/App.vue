@@ -2,6 +2,7 @@
 	<div id="app">
 		<nav>
 			<router-link to="/">Home</router-link>
+			<router-link to="/todos">Todo List</router-link>
 			<router-link to="/about">About</router-link>
 		</nav>
 		<router-view />
@@ -9,7 +10,6 @@
 </template>
 
 <script>
-
 export default {
 	name: 'app'
 };
@@ -34,7 +34,7 @@ html {
 }
 
 #app {
-	width: 50%;
+	width: 60%;
 }
 
 nav {
